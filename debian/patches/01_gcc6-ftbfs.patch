@@ -1,0 +1,24 @@
+From: Theppitak Karoonboonyanan <theppitak@gmail.com>
+Subject: Fix FTBFS with GCC 6
+
+* include/thai/thctype.h (_th_bitmsk):
+  - Use unsigned int instead of unsigned short for bitmask base,
+    as GCC 6 takes ~0 as -1 for unsigned short,
+    and causes compilation error for scim-thai.
+
+Origin: upstream, http://linux.thai.net/websvn/wsvn/software.libthai?rev=593
+Bug-Debian: http://bugs.debian.org/811690
+
+Index: libthai/include/thai/thctype.h
+===================================================================
+--- libthai.orig/include/thai/thctype.h
++++ libthai/include/thai/thctype.h
+@@ -363,7 +363,7 @@ extern int th_iscombchar(thchar_t c);
+ #include <ctype.h>
+ #define _th_ISbit(bit)  (1 << (bit))
+ #define _th_bitfld(base, val)  ((val) << (base))
+-#define _th_bitmsk(base, bits) (~((~(unsigned short)0) << (bits)) << (base))
++#define _th_bitmsk(base, bits) (~((~(unsigned)0) << (bits)) << (base))
+ 
+ enum {
+   _th_IStis   = _th_ISbit(0),        /* TIS-620 char */
